@@ -246,3 +246,80 @@ body {
 .navbar a:hover::after {
   transform: scaleX(1);
 }
+
+/* Shared layout */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+}
+
+/* Hero section */
+.about-hero {
+  background: linear-gradient(120deg, #e0f7fa, #f1f8e9);
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.about-hero h1 {
+  font-size: 2.8rem;
+  color: #264653;
+  margin-bottom: 1rem;
+}
+
+.about-hero .intro {
+  font-size: 1.2rem;
+  color: #555;
+  max-width: 600px;
+  margin: auto;
+}
+
+/* Content cards */
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 3rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  padding: 2rem;
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card h2 {
+  color: #2a9d8f;
+  margin-bottom: 0.75rem;
+}
+
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.card ul li {
+  margin: 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-hero h1 {
+    font-size: 2rem;
+  }
+
+  .about-content {
+    padding: 1rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
