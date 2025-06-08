@@ -323,3 +323,8 @@ body {
     padding: 1rem;
   }
 }
+.get-started-section a:hover,
+.get-started-section span:hover {
+  background-color: #21867a;
+  cursor: pointer;
+}
