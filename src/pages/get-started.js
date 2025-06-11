@@ -54,7 +54,7 @@ export default function GetStarted() {
   }}
 >
 <Link
-  href="/Prescription"
+  href="/prescription"
   style={{
     backgroundColor: "#e76f51", 
     padding: "1.25rem 3rem",
