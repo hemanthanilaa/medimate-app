@@ -53,53 +53,26 @@ export default function GetStarted() {
     marginBottom: "2rem",
   }}
 >
-  <Link
-    href="/signup"
-    style={{
-      backgroundColor: "#e76f51", 
-      padding: "1.25rem 3rem",
-      borderRadius: "40px",
-      color: "#fff",
-      fontWeight: "bold",
-      textDecoration: "none",
-      boxShadow: "0 6px 15px rgba(0,0,0,0.15)",
-      fontSize: "1.3rem",
-      minWidth: "240px",
-      textAlign: "center",
-      transition: "background 0.3s",
-      cursor: "pointer",
-    }}
-  >
-    Create Account
-  </Link>
-
-
-  <p
-    style={{
-      marginTop: "1.5rem",
-      color: "#555",
-      fontSize: "1rem",
-      fontWeight: "500",
-    }}
-  >
-    Already have an account?{" "}
-    <Link
-      href="/login"
-      style={{
-        color: "#2a9d8f", 
-        fontWeight: "bold",
-        textDecoration: "underline",
-        cursor: "pointer",
-      }}
-    >
-      Log In
-    </Link>
-  </p>
+<Link
+  href="/Prescription"
+  style={{
+    backgroundColor: "#e76f51", 
+    padding: "1.25rem 3rem",
+    borderRadius: "40px",
+    color: "#fff",
+    fontWeight: "bold",
+    textDecoration: "none",
+    boxShadow: "0 6px 15px rgba(0,0,0,0.15)",
+    fontSize: "1.3rem",
+    minWidth: "240px",
+    textAlign: "center",
+    transition: "background 0.3s",
+    cursor: "pointer",
+  }}
+>
+  Get Started
+</Link>
 </div>
-
-
-
-
         <div
           style={{
             background: "#fff",
