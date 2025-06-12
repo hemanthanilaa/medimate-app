@@ -1,112 +1,98 @@
-
-import Head from "next/head";
-import Layout from "../components/Layout";
-import Link from "next/link";
+import { useState } from 'react';
+import styles from '../styles/GetStarted.module.css';
 
 export default function GetStarted() {
+  const [pdfText, setPdfText] = useState("");
+  const [summary, setSummary] = useState("");
+  const [loadingText, setLoadingText] = useState(false);
+  const [loadingSummary, setLoadingSummary] = useState(false);
+
+  const handlePdfUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file || file.type !== "application/pdf") {
+      alert("Please upload a valid PDF file.");
+      return;
+    }
+
+    setLoadingText(true);
+    setSummary("");
+    setPdfText("");
+
+    const formData = new FormData();
+    formData.append("pdf", file);
+
+    try {
+      const res = await fetch("/api/extract-text", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      setPdfText(data.text || "No text found.");
+    } catch (err) {
+      console.error("Text extraction error:", err);
+      setPdfText("Failed to extract text.");
+    } finally {
+      setLoadingText(false);
+    }
+  };
+
+  const summarizeText = async () => {
+    if (!pdfText.trim()) return;
+
+    setLoadingSummary(true);
+    setSummary("");
+
+    try {
+      const res = await fetch("/api/summarize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: pdfText }),
+      });
+
+      const data = await res.json();
+      setSummary(data.summary || "No summary generated.");
+    } catch (err) {
+      console.error("Summarize error:", err);
+      setSummary("Failed to summarize.");
+    } finally {
+      setLoadingSummary(false);
+    }
+  };
+
   return (
-    <Layout>
-      <Head>
-        <title>Get Started – MediMate</title>
-        <meta
-          name="description"
-          content="Start managing your health with MediMate. Understand prescriptions, track medication, and access your health history."
-        />
-      </Head>
+    <div className={styles.container}>
+      <h1 className={styles.title}>🩺 MediMate – Summarize Medical Report</h1>
+<br></br> <br></br>
+      <label htmlFor="file-upload" className={styles.uploadLabel}>
+         Upload Medical Report
+      </label>
+      <br></br> <br></br>
+      <input id="file-upload" type="file" accept=".pdf" onChange={handlePdfUpload} className={styles.hiddenInput} />
 
-      <section
-        className="get-started-section"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "3rem 1rem",
-          textAlign: "center",
-          background: "#f9f9f9",
-          minHeight: "80vh",
-        }}
-      >
-        <h1 style={{ fontSize: "2.5rem", color: "#264653", marginBottom: "1rem" }}>
-          Welcome to MediMate
-        </h1>
+      {loadingText && <p>Extracting text...</p>}
 
-        <p
-          style={{
-            fontSize: "1.15rem",
-            maxWidth: "700px",
-            lineHeight: "1.8",
-            marginBottom: "3rem",
-            color: "#555",
-          }}
-        >
-          MediMate simplifies your healthcare journey. Upload prescriptions,
-          receive smart summaries for better understanding, and easily track
-          changes across your prescription history.
-        </p>
-
-<div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "1.5rem",
-    marginBottom: "2rem",
-  }}
->
-<Link
-  href="/prescription"
-  style={{
-    backgroundColor: "#e76f51", 
-    padding: "1.25rem 3rem",
-    borderRadius: "40px",
-    color: "#fff",
-    fontWeight: "bold",
-    textDecoration: "none",
-    boxShadow: "0 6px 15px rgba(0,0,0,0.15)",
-    fontSize: "1.3rem",
-    minWidth: "240px",
-    textAlign: "center",
-    transition: "background 0.3s",
-    cursor: "pointer",
-  }}
->
-  Get Started
-</Link>
-</div>
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "16px",
-            padding: "2rem",
-            maxWidth: "800px",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-            textAlign: "left",
-          }}
-        >
-          <h2 style={{ color: "#264653", marginBottom: "1rem" }}>Why MediMate?</h2>
-          <ul
-            style={{
-              lineHeight: "1.7",
-              fontSize: "1.05rem",
-              color: "#444",
-              paddingLeft: "1.25rem",
-            }}
-          >
-            <li>
-              <strong>Smart Prescription Upload:</strong> We extract and explain your prescription in plain language.
-            </li>
-            <li>
-              <strong>Easy-to-Understand Summaries:</strong> Skip the medical jargon—get clarity on what your doctor prescribed.
-            </li>
-            <li>
-              <strong>History Comparison:</strong> Track medication changes and treatment progress over time.
-            </li>
-            <li>
-              <strong>Reminders:</strong> Never miss a dose with intelligent alerts.
-            </li>
-          </ul>
+      {pdfText && (
+        <div style={{ marginTop: "2rem" }}>
+          <label><strong>Extracted Text:</strong></label>
+          <textarea
+            rows="12"
+            value={pdfText}
+            onChange={(e) => setPdfText(e.target.value)}
+            className={styles.textarea}
+          />
+          <button onClick={summarizeText} className={styles.summarizeButton}>
+            {loadingSummary ? " Summarizing..." : " Summarize Text"}
+          </button>
         </div>
-      </section>
-    </Layout>
+      )}
+
+      {summary && (
+        <div className={styles.summaryBox}>
+          <h3 className={styles.summaryTitle}>AI Summary:</h3>
+          <p className={styles.summaryText}>{summary}</p>
+        </div>
+      )}
+    </div>
   );
 }

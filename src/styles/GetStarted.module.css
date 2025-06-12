@@ -1,0 +1,93 @@
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  text-align: center;
+  color: #ff6a00;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.uploadLabel {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(to right, #ff8a00, #e52e71);
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(229, 46, 113, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.uploadLabel:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(229, 46, 113, 0.4);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.textarea {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  margin-top: 1rem;
+  resize: vertical;
+  background: #fdfdfd;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.summarizeButton {
+  margin-top: 1.5rem;
+  padding: 12px 30px;
+  background: linear-gradient(to right, #1a73e8, #4285f4);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(26, 115, 232, 0.3);
+  transition: background 0.3s, transform 0.2s;
+}
+
+.summarizeButton:hover {
+  background: linear-gradient(to right, #0c5ec4, #3367d6);
+  transform: translateY(-2px);
+}
+
+.summaryBox {
+  margin-top: 2rem;
+  background: #f5f9ff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #cbe0ff;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.1);
+}
+
+.summaryTitle {
+  color: #1a73e8;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.summaryText {
+  white-space: pre-line;
+  line-height: 1.6;
+  font-size: 1rem;
+  color: #333;
+}
