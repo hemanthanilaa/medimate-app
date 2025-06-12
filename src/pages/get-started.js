@@ -71,7 +71,7 @@ export default function GetStarted() {
       <input
   id="file-upload"
   type="file"
-  name="pdf"  // ✅ this is required
+  name="pdf"  
   accept=".pdf"
   onChange={handlePdfUpload}
   className={styles.hiddenInput}
