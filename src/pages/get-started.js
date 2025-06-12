@@ -7,7 +7,7 @@ export default function GetStarted() {
   const [summary, setSummary] = useState("");
   const [loadingText, setLoadingText] = useState(false);
   const [loadingSummary, setLoadingSummary] = useState(false);
-  const router = useRouter(); // ✅ Next.js router
+  const router = useRouter(); 
 
   const handlePdfUpload = async (e) => {
     const file = e.target.files[0];
@@ -64,7 +64,7 @@ export default function GetStarted() {
 
   return (
     <div className={styles.container}>
-      {/* ✅ Back Button for Next.js */}
+      
       <button onClick={() => router.back()} className={styles.backButton}>
         ← Back
       </button>
