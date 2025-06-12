@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from '../styles/GetStarted.module.css';
 
 export default function GetStarted() {
@@ -6,6 +7,7 @@ export default function GetStarted() {
   const [summary, setSummary] = useState("");
   const [loadingText, setLoadingText] = useState(false);
   const [loadingSummary, setLoadingSummary] = useState(false);
+  const router = useRouter(); // ✅ Next.js router
 
   const handlePdfUpload = async (e) => {
     const file = e.target.files[0];
@@ -62,20 +64,25 @@ export default function GetStarted() {
 
   return (
     <div className={styles.container}>
+      {/* ✅ Back Button for Next.js */}
+      <button onClick={() => router.back()} className={styles.backButton}>
+        ← Back
+      </button>
+
       <h1 className={styles.title}>🩺 MediMate – Summarize Medical Report</h1>
-<br></br> <br></br>
+      <br /><br />
       <label htmlFor="file-upload" className={styles.uploadLabel}>
-         Upload Medical Report
+        Upload Medical Report
       </label>
-      <br></br> <br></br>
+      <br /><br />
       <input
-  id="file-upload"
-  type="file"
-  name="pdf"  
-  accept=".pdf"
-  onChange={handlePdfUpload}
-  className={styles.hiddenInput}
-/>
+        id="file-upload"
+        type="file"
+        name="pdf"
+        accept=".pdf"
+        onChange={handlePdfUpload}
+        className={styles.hiddenInput}
+      />
 
       {loadingText && <p>Extracting text...</p>}
 
