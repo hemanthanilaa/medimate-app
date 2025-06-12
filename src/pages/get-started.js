@@ -68,7 +68,14 @@ export default function GetStarted() {
          Upload Medical Report
       </label>
       <br></br> <br></br>
-      <input id="file-upload" type="file" accept=".pdf" onChange={handlePdfUpload} className={styles.hiddenInput} />
+      <input
+  id="file-upload"
+  type="file"
+  name="pdf"  // ✅ this is required
+  accept=".pdf"
+  onChange={handlePdfUpload}
+  className={styles.hiddenInput}
+/>
 
       {loadingText && <p>Extracting text...</p>}
 
