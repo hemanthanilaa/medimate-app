@@ -1,17 +1,43 @@
 import Head from "next/head";
 import Layout from "../components/Layout";
 import { useState } from "react";
+import { useRouter } from "next/router";
+
+import { db } from "../../lib/firebaseConfig";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Logging in as ${formData.email}`);
+
+    try {
+      
+      const userRef = collection(db, "userDetail");
+      const q = query(
+        userRef,
+        where("emailID", "==", formData.email),
+        where("pwd", "==", formData.password)
+      );
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+      
+        alert("Login successful!");
+        router.push("/prescription");
+      } else {
+        
+        alert("Invalid email or password");
+      }
+    } catch (error) {
+      alert("Login failed: " + error.message);
+    }
   };
 
   return (

@@ -1,112 +1,58 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import styles from '../styles/GetStarted.module.css';
+import Head from "next/head";
+import Layout from "../components/Layout";
+import { useRouter } from "next/router";
 
 export default function GetStarted() {
-  const [pdfText, setPdfText] = useState("");
-  const [summary, setSummary] = useState("");
-  const [loadingText, setLoadingText] = useState(false);
-  const [loadingSummary, setLoadingSummary] = useState(false);
-  const router = useRouter(); 
-
-  const handlePdfUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file || file.type !== "application/pdf") {
-      alert("Please upload a valid PDF file.");
-      return;
-    }
-
-    setLoadingText(true);
-    setSummary("");
-    setPdfText("");
-
-    const formData = new FormData();
-    formData.append("pdf", file);
-
-    try {
-      const res = await fetch("/api/extract-text", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-      setPdfText(data.text || "No text found.");
-    } catch (err) {
-      console.error("Text extraction error:", err);
-      setPdfText("Failed to extract text.");
-    } finally {
-      setLoadingText(false);
-    }
-  };
-
-  const summarizeText = async () => {
-    if (!pdfText.trim()) return;
-
-    setLoadingSummary(true);
-    setSummary("");
-
-    try {
-      const res = await fetch("/api/summarize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: pdfText }),
-      });
-
-      const data = await res.json();
-      setSummary(data.summary || "No summary generated.");
-    } catch (err) {
-      console.error("Summarize error:", err);
-      setSummary("Failed to summarize.");
-    } finally {
-      setLoadingSummary(false);
-    }
-  };
+  const router = useRouter();
 
   return (
-    <div className={styles.container}>
-      
-      <button onClick={() => router.back()} className={styles.backButton}>
-        ← Back
-      </button>
+    <Layout>
+      <Head>
+        <title>Get Started – MediMate</title>
+      </Head>
 
-      <h1 className={styles.title}>🩺 MediMate – Summarize Medical Report</h1>
-      <br /><br />
-      <label htmlFor="file-upload" className={styles.uploadLabel}>
-        Upload Medical Report
-      </label>
-      <br /><br />
-      <input
-        id="file-upload"
-        type="file"
-        name="pdf"
-        accept=".pdf"
-        onChange={handlePdfUpload}
-        className={styles.hiddenInput}
-      />
+      <section style={{ maxWidth: 500, margin: "4rem auto", padding: "1rem", textAlign: "center" }}>
+        <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to MediMate</h1>
+        <p style={{ fontSize: "1.1rem", color: "#555", marginBottom: "2rem" }}>
+          Your personal AI-powered medical assistant. Upload reports, get instant summaries, and track your health history with ease.
+        </p>
 
-      {loadingText && <p>Extracting text...</p>}
+        <button
+          onClick={() => router.push("/signup")}
+          style={{
+            padding: "0.75rem 1.5rem",
+            backgroundColor: "#264653",
+            color: "#fff",
+            fontWeight: "bold",
+            border: "none",
+            borderRadius: "4px",
+            fontSize: "1rem",
+            cursor: "pointer",
+            marginBottom: "1rem",
+          }}
+        >
+          Create Account
+        </button>
 
-      {pdfText && (
-        <div style={{ marginTop: "2rem" }}>
-          <label><strong>Extracted Text:</strong></label>
-          <textarea
-            rows="12"
-            value={pdfText}
-            onChange={(e) => setPdfText(e.target.value)}
-            className={styles.textarea}
-          />
-          <button onClick={summarizeText} className={styles.summarizeButton}>
-            {loadingSummary ? " Summarizing..." : " Summarize Text"}
+        <p style={{ color: "#333", marginTop: "1rem" }}>
+          Already have an account?{" "}
+          <button
+            onClick={() => router.push("/login")}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#e76f51",
+              fontWeight: "bold",
+              cursor: "pointer",
+              padding: 0,
+              fontSize: "1rem",
+              textDecoration: "underline",
+            }}
+          >
+            Log In
           </button>
-        </div>
-      )}
-
-      {summary && (
-        <div className={styles.summaryBox}>
-          <h3 className={styles.summaryTitle}>AI Summary:</h3>
-          <p className={styles.summaryText}>{summary}</p>
-        </div>
-      )}
-    </div>
+        </p>
+      </section>
+    </Layout>
   );
 }

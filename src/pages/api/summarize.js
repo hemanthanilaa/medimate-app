@@ -33,7 +33,7 @@ Now summarize this in plain, easy-to-understand language:
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "command-r-plus", // or "command" if you're on the free plan
+        model: "command-r-plus", 
         prompt,
         max_tokens: 400,
         temperature: 0.5,

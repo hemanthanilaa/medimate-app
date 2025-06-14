@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       const data = await pdf(buffer);
       const extractedText = data.text?.slice(0, 5000) || "No text found";
 
-      fs.unlinkSync(filePath); // ✅ Clean up temp file
+      fs.unlinkSync(filePath);
 
       return res.status(200).json({ text: extractedText });
     } catch (e) {

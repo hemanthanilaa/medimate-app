@@ -1,6 +1,10 @@
 import Head from "next/head";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout"; // adjust if your path is different
 import { useState } from "react";
+
+// Firebase
+import { db } from "../../lib/firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 
 export default function Signup() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
@@ -9,10 +13,22 @@ export default function Signup() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Account created for ${formData.name} (${formData.email})`);
-   
+
+    try {
+      // Save to Firestore under userDetail collection
+      await addDoc(collection(db, "userDetail"), {
+        name: formData.name,
+        emailID: formData.email,
+        pwd: formData.password, // 🔒 Warning: plain-text password for learning/demo only!
+      });
+
+      alert("Account created and saved to Firestore!");
+      setFormData({ name: "", email: "", password: "" }); // Clear form
+    } catch (error) {
+      alert("Error creating account: " + error.message);
+    }
   };
 
   return (
